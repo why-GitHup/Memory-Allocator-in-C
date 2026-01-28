@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "memAllo.h"
+#include "../include/memAllo.h"
 #include "LL.h"
 
 listNode* createNode(int value){

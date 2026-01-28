@@ -1,4 +1,4 @@
-#include "avl.h"
+#include "../include/avl.h"
 #include <stddef.h>
 
 // Helper function to get maximum of two integers
