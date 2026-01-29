@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "../include/memAllo.h"
-#include "LL.h"
+#include "../include/LL.h"
 
 listNode* createNode(int value){
     listNode* n = mem_alloc(sizeof(listNode));
@@ -13,7 +13,11 @@ listNode* createNode(int value){
 }
 void add_at_head(listNode** head, listNode* load){
     if(!load) return;
-    if(!*head) *head = load;
+    if(!*head) {
+        *head = load;
+        load->next = NULL;
+        return;
+    }
     listNode* temp = *head;
     load->next = temp;
     *head = load;

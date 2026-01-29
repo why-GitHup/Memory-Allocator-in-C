@@ -26,6 +26,7 @@ Block* avl_rotate_left(Block* x);
 // Insert a block into the AVL tree
 Block* avl_insert(Block* root, Block* block);
 
+Block* avl_remove_block(Block* root, Block* block);
 // Find the best fit block (in-order traversal for smallest sufficient block)
 Block* avl_find_best_fit(Block* root, size_t size);
 

@@ -24,6 +24,7 @@ Block* request_space(size_t size){
     request = sbrk(BLOCK_SIZE + size);
     
     if(request == (void*) -1){
+        printf("Failed to allocate memory -> sbrk failed");
         return NULL; // sbrk failed
     }
     
@@ -68,10 +69,7 @@ void mem_free(void* ptr){
     pthread_mutex_lock(&mem_mutex);
     Block *block = (Block*)ptr - 1;
     block->is_free = 1;
+    avl_remove_block(free_list, block);
     pthread_mutex_unlock(&mem_mutex);
 }
 
-int main(){
-
-    return 0;
-}

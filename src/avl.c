@@ -101,6 +101,75 @@ Block* avl_insert(Block* root, Block* block) {
     
     return root;
 }
+Block* minValueNode(Block* node) {
+    Block* current = node;
+    while (current->left != NULL)
+        current = current->left;
+    return current;
+}
+Block* avl_remove_block(Block* root, Block* block){
+   if(root == NULL) return root;
+
+   if(block->size < root->size){
+    root->left = avl_remove_block(root->left, block);
+   }
+   if(block->size > root->size){
+    root->right = avl_remove_block(root->right, block);
+   }
+   else{
+        if((root->left == NULL) || (root->right == NULL)){
+            Block* temp = root->left ? root->left : root->right;
+
+            if(temp == NULL){
+                temp = root;
+                root = NULL;
+            }
+            else{
+                *root = *temp;
+            }
+            
+        }else{
+            Block* temp = minValueNode(root->right);
+
+            root->size = temp->size;
+
+            root->right = avl_remove_block(root->right, temp);
+        }
+   }
+
+   if(root == NULL){
+        return root;
+   }
+   root->height = 1 + max(avl_height(root->left), avl_height(root->right));
+
+    
+    int balance = avl_get_balance(root);
+
+    // If unbalanced, there are 4 cases:
+
+    // Left Left Case
+    if (balance > 1 && avl_get_balance(root->left) >= 0)
+        return avl_rotate_right(root);
+
+    // Left Right Case
+    if (balance > 1 && avl_get_balance(root->left) < 0) {
+        root->left = avl_rotate_left(root->left);
+        return avl_rotate_right(root);
+    }
+
+    // Right Right Case
+    if (balance < -1 && avl_get_balance(root->right) <= 0)
+        return avl_rotate_left(root);
+
+    // Right Left Case
+    if (balance < -1 && avl_get_balance(root->right) > 0) {
+        root->right = avl_rotate_right(root->right);
+        return avl_rotate_left(root);
+    }
+
+    return root;
+
+}
 
 // Find the best fit block (in-order traversal for smallest sufficient block)
 Block* avl_find_best_fit(Block* root, size_t size) {
